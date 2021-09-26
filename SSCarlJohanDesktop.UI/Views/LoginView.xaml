@@ -1,0 +1,38 @@
+﻿<Window x:Class="SSCarlJohanDesktop.UI.Views.LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SSCarlJohanDesktop.UI.Views"
+        mc:Ignorable="d" Background="White"
+        FontSize="24"
+        Title="LoginView" Height="425" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="64" FontFamily="Arial" Margin="0 0 0 10">Login Form</TextBlock>
+        <!--Username row-->
+        <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="0 0 0 10">
+            Username:
+        </TextBlock>
+        <TextBox x:Name="username" Grid.Row="1" Grid.Column="2" MinWidth="100" Margin="0 0 0 10"/>
+        <!--Password row-->
+        <TextBlock Grid.Row="2" Grid.Column="1" Margin="0 0 0 10">
+            Password:
+        </TextBlock>
+        <PasswordBox x:Name="password" Grid.Row="2" Grid.Column="2" MinWidth="100" Margin="0 0 0 10"/>
+        <!--Login row-->
+        <Button Grid.Row="3" Padding="20 5" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" x:Name="loginButton">Log in</Button>
+    </Grid>
+</Window>
