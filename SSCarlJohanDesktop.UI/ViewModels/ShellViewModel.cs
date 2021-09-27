@@ -9,7 +9,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 {
     public class ShellViewModel : Conductor<object>
     {
-        LoginViewModel _loginVM;
+        private LoginViewModel _loginVM;
 
         public ShellViewModel(LoginViewModel loginVM)
         {
