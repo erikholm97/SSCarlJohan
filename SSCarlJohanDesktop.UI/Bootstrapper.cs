@@ -3,8 +3,6 @@ using SSCarlJohanDesktop.UI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace SSCarlJohanDesktop.UI
@@ -24,6 +22,13 @@ namespace SSCarlJohanDesktop.UI
             _container
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>();
+
+            GetType().Assembly.GetTypes()
+                .Where(type => type.IsClass)
+                .Where(type => type.Name.EndsWith("ViewModel"))
+                .ToList()
+                .ForEach(viewModelType => _container.RegisterPerRequest(
+                    viewModelType, viewModelType.ToString(), viewModelType));
         }
 
         protected override void OnStartup(object sender, StartupEventArgs e)
@@ -43,7 +48,7 @@ namespace SSCarlJohanDesktop.UI
 
         protected override void BuildUp(object instance)
         {
-            base.BuildUp(instance);
+            _container.BuildUp(instance);
         }
     }
 }
