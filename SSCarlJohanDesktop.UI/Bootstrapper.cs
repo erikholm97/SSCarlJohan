@@ -1,9 +1,11 @@
 ﻿using Caliburn.Micro;
+using SSCarlJohanDesktop.UI.Helpers;
 using SSCarlJohanDesktop.UI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SSCarlJohanDesktop.UI
 {
@@ -13,6 +15,11 @@ namespace SSCarlJohanDesktop.UI
         public Bootstrapper()
         {
             Initialize();
+
+            ConventionManager.AddElementConvention<PasswordBox>(
+                                                PasswordBoxHelper.BoundPasswordProperty,
+                                                "Password",
+                                                "PasswordChanged");
         }
 
         protected override void Configure()
