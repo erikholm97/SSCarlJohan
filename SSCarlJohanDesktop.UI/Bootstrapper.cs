@@ -28,8 +28,7 @@ namespace SSCarlJohanDesktop.UI
 
             _container
                 .Singleton<IWindowManager, WindowManager>()
-                .Singleton<IEventAggregator, EventAggregator>()
-                .Singleton<IAPIHelper, APIHelper>();
+                .Singleton<IEventAggregator, EventAggregator>();
 
             GetType().Assembly.GetTypes()
                 .Where(type => type.IsClass)
