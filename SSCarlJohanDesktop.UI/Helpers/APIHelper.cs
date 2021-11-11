@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace SSCarlJohanDesktop.UI.Helpers
 {
-    public class APIHelper
+    public class APIHelper : IAPIHelper
     {
-        public HttpClient ApiClient { get; set; }
+        public HttpClient apiClient;
 
         public APIHelper()
         {
@@ -22,13 +22,13 @@ namespace SSCarlJohanDesktop.UI.Helpers
         {
             string apiUri = ConfigurationManager.AppSettings["api"];
 
-            ApiClient = new HttpClient();
-            ApiClient.BaseAddress = new Uri(apiUri);
-            ApiClient.DefaultRequestHeaders.Accept.Clear();
-            ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            apiClient = new HttpClient();
+            apiClient.BaseAddress = new Uri(apiUri);
+            apiClient.DefaultRequestHeaders.Accept.Clear();
+            apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task AuthenticateAsync(string username, string password)
+        public async Task<AuthenticatedUser> AuthenticateAsync(string username, string password)
         {
             var data = new FormUrlEncodedContent(new[]
             {
@@ -37,9 +37,19 @@ namespace SSCarlJohanDesktop.UI.Helpers
                 new KeyValuePair<string, string>("grant_type", password),
             });
 
-            using(HttpResponseMessage response = await ApiClient.PostAsync("/Token", data))
+            using (HttpResponseMessage response = await apiClient.PostAsync("/Token", data))
             {
 
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<AuthenticatedUser>();
+
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
             }
 
         }
