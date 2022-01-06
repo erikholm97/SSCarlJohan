@@ -19,7 +19,7 @@ namespace SSCarlJohanDesktop.UI
             ConventionManager.AddElementConvention<PasswordBox>(
                                                 PasswordBoxHelper.BoundPasswordProperty,
                                                 "Password",
-                                                "PasswordChanged");
+                                                "PasswordChanged");            
         }
 
         protected override void Configure()
