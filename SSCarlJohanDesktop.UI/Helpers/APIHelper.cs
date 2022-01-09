@@ -34,10 +34,10 @@ namespace SSCarlJohanDesktop.UI.Helpers
             {
                 new KeyValuePair<string, string>("grant_type", "password"),
                 new KeyValuePair<string, string>("username", username),
-                new KeyValuePair<string, string>("grant_type", password),
+                new KeyValuePair<string, string>("password", password),
             });
 
-            using (HttpResponseMessage response = await apiClient.PostAsync("/Token", data))
+            using (HttpResponseMessage response = await apiClient.PostAsync("/token", data))
             {
 
                 if (response.IsSuccessStatusCode)

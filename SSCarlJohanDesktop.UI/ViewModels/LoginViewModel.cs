@@ -56,7 +56,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 
                 return userCanLogIn;
             }
-           
+            
         }
         
         public bool IsErrorVisible
@@ -80,10 +80,10 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         {
             get { return _errorMessage; }
             set 
-            {
+            {                
+                _errorMessage = value;
                 NotifyOfPropertyChange(() => IsErrorVisible);
                 NotifyOfPropertyChange(() => ErrorMessage);
-                _errorMessage = value; 
             }
         }
 
@@ -92,6 +92,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         {
             try
             {
+                ErrorMessage = "";
                 var result = await _apiHelper.AuthenticateAsync(UserName, Password);
             }
             catch(Exception ex)
