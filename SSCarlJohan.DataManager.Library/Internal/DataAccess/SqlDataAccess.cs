@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
 {
-    internal class SqlDataAccess //https://youtu.be/k6mbESq--eE?t=1359
+    internal class SqlDataAccess
     {
         public string GetConnectionString(string name)
         {
@@ -19,9 +19,9 @@ namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
 
         public List<T> LoadData<T, U>(string storedProcedure, U parameters, string connectionStringName)
         {
-            string connectionString = GetConnectionString(storedProcedure);
+            string connectionString = GetConnectionString(connectionStringName);
 
-            using (IDbConnection connection = new SqlConnection())
+            using (IDbConnection connection = new SqlConnection(connectionString))
             {
                 List<T> rows = connection.Query<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure).ToList();
 
@@ -31,9 +31,9 @@ namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
 
         public void SaveData<T>(string storedProcedure, T parameters, string connectionStringName)
         {
-            string connectionString = GetConnectionString(storedProcedure);
+            string connectionString = GetConnectionString(connectionStringName);
 
-            using (IDbConnection connection = new SqlConnection())
+            using (IDbConnection connection = new SqlConnection(connectionString))
             {
                 connection.Execute(storedProcedure, parameters,
                                    commandType: CommandType.StoredProcedure);
