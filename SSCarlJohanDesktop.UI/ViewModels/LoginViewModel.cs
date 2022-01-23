@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using SSCarlJohan.Desktop.UI.Library.API;
 using SSCarlJohanDesktop.UI.Helpers;
 
 namespace SSCarlJohanDesktop.UI.ViewModels
@@ -94,6 +95,8 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             {
                 ErrorMessage = "";
                 var result = await _apiHelper.AuthenticateAsync(UserName, Password);
+
+                // Capture more information about the user.
             }
             catch(Exception ex)
             {

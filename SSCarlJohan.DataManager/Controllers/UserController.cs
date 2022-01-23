@@ -2,6 +2,7 @@
 using SSCarlJohan.DataManager.Library.DataAccess;
 using SSCarlJohan.DataManager.Library.Internal.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace SSCarlJohan.DataManager.Controllers
@@ -10,13 +11,14 @@ namespace SSCarlJohan.DataManager.Controllers
     [RoutePrefix("api/User")]
     public class UserController : ApiController
     {
-        public List<UserModel> GetById()
+        [HttpGet]
+        public UserModel GetById()
         {
             string userId = RequestContext.Principal.Identity.GetUserId();
 
             UserData userData = new UserData();
 
-            return userData.GetUserById(userId);
+            return userData.GetUserById(userId).First();
         }
     }
 }

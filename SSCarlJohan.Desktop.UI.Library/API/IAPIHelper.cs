@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using SSCarlJohan.Desktop.UI.Library.Models;
+using System.Threading.Tasks;
 
-namespace SSCarlJohanDesktop.UI.Helpers
+namespace SSCarlJohan.Desktop.UI.Library.API
 {
     public interface IAPIHelper
     {

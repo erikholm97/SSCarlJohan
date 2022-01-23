@@ -75,9 +75,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Helpers\APIHelper.cs" />
-    <Compile Include="Helpers\AuthenticatedUser.cs" />
-    <Compile Include="Helpers\IAPIHelper.cs" />
+    <Compile Include="Models\AuthenticatedUser.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
@@ -136,7 +134,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\SSCarlJohan.Desktop.UI.Library\SSCarlJohan.Desktop.UI.Library.csproj">
+      <Project>{d0371e8b-aadb-44f3-8491-fc3d79fa4aa1}</Project>
+      <Name>SSCarlJohan.Desktop.UI.Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

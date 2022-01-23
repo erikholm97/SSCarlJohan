@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SSCarlJohanDesktop.UI.Helpers
+namespace SSCarlJohanDesktop.UI.Models
 {
     public class AuthenticatedUser
     {
