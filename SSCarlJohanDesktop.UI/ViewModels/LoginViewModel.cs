@@ -96,11 +96,10 @@ namespace SSCarlJohanDesktop.UI.ViewModels
                 ErrorMessage = "";
                 var result = await _apiHelper.AuthenticateAsync(UserName, Password);
 
-                // Capture more information about the user.
+                await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
             }
             catch(Exception ex)
             {
-
                 ErrorMessage = ex.Message;
             }            
         }

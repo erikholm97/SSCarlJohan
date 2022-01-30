@@ -14,9 +14,12 @@ namespace SSCarlJohan.Desktop.UI.Library.API
     {
         public HttpClient apiClient;
 
-        public APIHelper()
-        {
+        private ILoggedInUserModel _loggedInUserModel;
+
+        public APIHelper(ILoggedInUserModel loggedInUser)
+        {           
             InitializeClient();
+            _loggedInUserModel = loggedInUser;
         }
 
         private void InitializeClient()
@@ -61,11 +64,19 @@ namespace SSCarlJohan.Desktop.UI.Library.API
             apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             apiClient.DefaultRequestHeaders.Add("Authorization", $"Bearer { token }");
 
-            using (HttpResponseMessage response = await apiClient.GetAsync("/User"))
+            using (HttpResponseMessage response = await apiClient.GetAsync("/api/User"))
             {
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsAsync<LoggedInUserModel>();
+
+                    _loggedInUserModel.CreatedDate = result.CreatedDate;
+                    _loggedInUserModel.EmailAddress = result.EmailAddress;
+                    _loggedInUserModel.FirstName = result.FirstName;
+                    _loggedInUserModel.LastName = result.LastName;
+                    _loggedInUserModel.Id = result.Id;
+                    _loggedInUserModel.LastName = result.LastName;
+                    _loggedInUserModel.Token = token;
 
                     return result;
                 }

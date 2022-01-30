@@ -6,5 +6,6 @@ namespace SSCarlJohan.Desktop.UI.Library.API
     public interface IAPIHelper
     {
         Task<AuthenticatedUser> AuthenticateAsync(string username, string password);
+        Task<LoggedInUserModel> GetLoggedInUserInfo(string token);
     }
 }
