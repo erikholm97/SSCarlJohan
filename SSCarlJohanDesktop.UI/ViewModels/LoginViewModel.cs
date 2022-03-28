@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using SSCarlJohan.Desktop.UI.Library.API;
+using SSCarlJohanDesktop.UI.EventModels;
 using SSCarlJohanDesktop.UI.Helpers;
 
 namespace SSCarlJohanDesktop.UI.ViewModels
@@ -17,9 +18,12 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 
         private IAPIHelper _apiHelper;
 
-        public LoginViewModel(IAPIHelper apiHelper)
+        private IEventAggregator _events;
+
+        public LoginViewModel(IAPIHelper apiHelper, IEventAggregator events)
         {
             _apiHelper = apiHelper;
+            _events = events;
         }
 
         public string UserName
@@ -97,6 +101,8 @@ namespace SSCarlJohanDesktop.UI.ViewModels
                 var result = await _apiHelper.AuthenticateAsync(UserName, Password);
 
                 await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
+
+                _events.PublishOnUIThread(new LogOnEvent());
             }
             catch(Exception ex)
             {
