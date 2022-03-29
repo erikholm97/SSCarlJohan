@@ -1,29 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using SSCarlJohanDesktop.UI.EventModels;
 
 namespace SSCarlJohanDesktop.UI.ViewModels
 {
     public class ShellViewModel : Conductor<object>, IHandle<LogOnEvent>
-    {
-        private LoginViewModel _loginVM;
+    {        
         private IEventAggregator _events;
+        private SalesViewModel _salesVM;
+        private SimpleContainer _container;
 
-        public ShellViewModel(LoginViewModel loginVM, IEventAggregator events)
+        public ShellViewModel(SalesViewModel salesVM, IEventAggregator events, 
+            SimpleContainer container)
         {
-            _events = events;
+            _events = events;                        
+            _salesVM = salesVM;
+            _container = container;
+
             _events.Subscribe(this);
-            _loginVM = loginVM;
-            ActivateItem(_loginVM);
+            
+            ActivateItem(_container.GetInstance<LoginViewModel>());
         }
 
         public void Handle(LogOnEvent message)
-        {
-            
-        }
+            => ActivateItem(_salesVM);            
+        
     }
 }
