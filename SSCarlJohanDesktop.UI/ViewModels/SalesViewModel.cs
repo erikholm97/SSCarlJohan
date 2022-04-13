@@ -1,4 +1,6 @@
 ﻿using Caliburn.Micro;
+using SSCarlJohan.Desktop.UI.Library.API;
+using SSCarlJohan.Desktop.UI.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,9 +12,29 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 {
     public class SalesViewModel : Screen
     {
-        private BindingList<string> _products;
+        private IProductEndPoint productEndPoint;
 
-        public BindingList<string> Products
+        public SalesViewModel(IProductEndPoint productEndPoint)
+        {
+            this.productEndPoint = productEndPoint;
+            LoadProducts();
+        }
+
+        protected override async void OnViewLoaded(object view)
+        {
+            base.OnViewLoaded(view);
+            LoadProducts();
+        }
+
+        private async Task LoadProducts()
+        {
+            var products = await productEndPoint.GetAll();
+            Products = new BindingList<ProductModel>(products);
+        }
+
+        private BindingList<ProductModel> _products;
+
+        public BindingList<ProductModel> Products
         {
             get { return _products; }
             set 

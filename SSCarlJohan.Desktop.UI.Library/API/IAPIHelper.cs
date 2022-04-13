@@ -1,4 +1,5 @@
 ﻿using SSCarlJohan.Desktop.UI.Library.Models;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SSCarlJohan.Desktop.UI.Library.API
@@ -7,5 +8,6 @@ namespace SSCarlJohan.Desktop.UI.Library.API
     {
         Task<AuthenticatedUser> AuthenticateAsync(string username, string password);
         Task<LoggedInUserModel> GetLoggedInUserInfo(string token);
+        HttpClient ApiClient { get; }        
     }
 }
