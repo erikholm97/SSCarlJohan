@@ -16,14 +16,13 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 
         public SalesViewModel(IProductEndPoint productEndPoint)
         {
-            this.productEndPoint = productEndPoint;
-            LoadProducts();
+            this.productEndPoint = productEndPoint;            
         }
 
         protected override async void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
-            LoadProducts();
+            await LoadProducts();
         }
 
         private async Task LoadProducts()
@@ -38,7 +37,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         {
             get { return _products; }
             set 
-            {                
+             {                
                 _products = value; 
                 NotifyOfPropertyChange(() => Products);
             }
