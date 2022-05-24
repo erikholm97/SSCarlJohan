@@ -16,7 +16,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 
         public SalesViewModel(IProductEndPoint productEndPoint)
         {
-            this.productEndPoint = productEndPoint;            
+            this.productEndPoint = productEndPoint;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -36,16 +36,29 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         public BindingList<ProductModel> Products
         {
             get { return _products; }
-            set 
-             {                
-                _products = value; 
+            set
+            {
+                _products = value;
                 NotifyOfPropertyChange(() => Products);
             }
         }
 
-        private BindingList<string> _cart;
+        private ProductModel _selectedProduct;
 
-        public BindingList<string> Cart
+        public ProductModel SelectedProduct
+        {
+            get{ return _selectedProduct; }
+            set
+            {
+                _selectedProduct = value;
+                NotifyOfPropertyChange(() => SelectedProduct);
+            }
+        }
+
+
+        private BindingList<ProductModel> _cart;
+
+        public BindingList<ProductModel> Cart
         {
             get { return _cart; }
             set
@@ -60,10 +73,11 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         public int ItemQuantity
         {
             get { return _itemQuantity; }
-            set 
-            { 
+            set
+            {
                 _itemQuantity = value;
                 NotifyOfPropertyChange(() => ItemQuantity);
+                NotifyOfPropertyChange(() => CanAddToCart);
             }
         }
 
@@ -98,9 +112,10 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             {
                 bool output = false;
 
-
-                //Make sure something is selected
-                // Make sure there is an item quantity.
+                if (ItemQuantity > 0 && SelectedProduct?.QuantityInStock >= ItemQuantity)
+                {
+                    output = true;
+                }
 
                 return output;
             }
@@ -108,7 +123,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 
         public void AddToCart()
         {
-        
+
         }
 
         public bool CanRemoveFromCart
