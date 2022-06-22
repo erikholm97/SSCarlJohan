@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using SSCarlJohan.Desktop.UI.Library.API;
+using SSCarlJohan.Desktop.UI.Library.Helpers;
 using SSCarlJohan.Desktop.UI.Library.Models;
 using SSCarlJohanDesktop.UI.Helpers;
 using SSCarlJohanDesktop.UI.ViewModels;
@@ -33,6 +34,7 @@ namespace SSCarlJohanDesktop.UI
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<ILoggedInUserModel, LoggedInUserModel>()
+                .Singleton<IConfigHelper, ConfigHelper>()
                 .Singleton<IAPIHelper, APIHelper>();
 
             GetType().Assembly.GetTypes()

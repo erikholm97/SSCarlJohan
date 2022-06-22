@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using SSCarlJohan.Desktop.UI.Library.API;
+using SSCarlJohan.Desktop.UI.Library.Helpers;
 using SSCarlJohan.Desktop.UI.Library.Models;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,16 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 {
     public class SalesViewModel : Screen
     {
-        private IProductEndPoint productEndPoint;
+        IProductEndPoint _productEndPoint;
+        IConfigHelper _configHelper;
 
-        public SalesViewModel(IProductEndPoint productEndPoint)
+        public SalesViewModel(IProductEndPoint productEndPoint,
+            IConfigHelper configHelper)
         {
-            this.productEndPoint = productEndPoint;
-        }
-
-        protected override async void OnViewLoaded(object view)
+            _productEndPoint = productEndPoint;
+            _configHelper = configHelper;
+        }        
+        protected async void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
             await LoadProducts();
@@ -27,7 +30,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 
         private async Task LoadProducts()
         {
-            var products = await productEndPoint.GetAll();
+            var products = await _productEndPoint.GetAll();
             Products = new BindingList<ProductModel>(products);
         }
 
@@ -100,7 +103,14 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         {
             get
             {
-                return "0.00 KR";
+                //decimal taxAmount = 0;
+
+                //foreach (var item in Cart)
+                //{
+                //    taxAmount += (item.Product.RetailPrice * item.QuantityInCart);
+                //}
+
+                //return taxAmount.ToString("C");
             }
         }
 
