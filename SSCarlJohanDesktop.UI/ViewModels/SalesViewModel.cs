@@ -22,7 +22,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             _productEndPoint = productEndPoint;
             _configHelper = configHelper;
         }        
-        protected async void OnViewLoaded(object view)
+        protected override async void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
             await LoadProducts();
@@ -87,30 +87,43 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         public string SubTotal
         {
             get
-            {
-                decimal subTotal = 0;
-
-                foreach (var item in Cart)
-                {
-                    subTotal += (item.Product.RetailPrice * item.QuantityInCart);
-                }
-
-                return subTotal.ToString("C");
+            {                
+                return CalculateSubTotal().ToString("C");
             }
+        }
+
+        private decimal CalculateSubTotal()
+        {
+            decimal subTotal = 0;
+
+            foreach (var item in Cart)
+            {
+                subTotal += (item.Product.RetailPrice * item.QuantityInCart);
+            }
+
+            return subTotal;
+
+        }
+
+        private decimal CalculateTax()
+        {
+            decimal taxAmount = 0;
+            decimal taxeRate = _configHelper.GetTaxRate();
+
+            foreach (var item in Cart)
+            {
+                taxAmount += (item.Product.RetailPrice * item.QuantityInCart * taxeRate);
+            }
+
+            return taxAmount;
+
         }
 
         public string Tax
         {
             get
-            {
-                //decimal taxAmount = 0;
-
-                //foreach (var item in Cart)
-                //{
-                //    taxAmount += (item.Product.RetailPrice * item.QuantityInCart);
-                //}
-
-                //return taxAmount.ToString("C");
+            {                
+                return CalculateTax().ToString("C");
             }
         }
 
@@ -118,7 +131,9 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         {
             get
             {
-                return "0.00 KR";
+                decimal total = CalculateSubTotal() + CalculateTax();
+
+                return total.ToString("C");
             }
         }
 
@@ -163,6 +178,8 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             SelectedProduct.QuantityInStock -= ItemQuantity;
             ItemQuantity = 1;
             NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
         }
 
         public bool CanRemoveFromCart
@@ -182,6 +199,8 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         public void RemoveFromCart()
         {
             NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
         }
 
         public bool CanCheckOut
