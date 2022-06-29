@@ -108,7 +108,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         private decimal CalculateTax()
         {
             decimal taxAmount = 0;
-            decimal taxeRate = _configHelper.GetTaxRate();
+            decimal taxeRate = _configHelper.GetTaxRate() / 100;
 
             foreach (var item in Cart)
             {
