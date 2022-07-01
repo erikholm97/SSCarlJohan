@@ -110,10 +110,9 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             decimal taxAmount = 0;
             decimal taxeRate = _configHelper.GetTaxRate() / 100;
 
-            foreach (var item in Cart)
-            {
-                taxAmount += (item.Product.RetailPrice * item.QuantityInCart * taxeRate);
-            }
+            taxAmount = Cart
+                       .Where(x => x.Product.IsTaxable)
+                       .Sum(x => x.Product.RetailPrice * x.QuantityInCart * taxeRate);
 
             return taxAmount;
 
