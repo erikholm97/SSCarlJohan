@@ -220,6 +220,17 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 
         public void CheckOut()
         {
+            SaleModel sale = new SaleModel();
+
+            foreach (var item in Cart)
+            {
+                sale.SaleDetails.Add(new SaleDetailModel
+                {
+                    ProductId = item.Product.Id,
+                    Quantity = item.QuantityInCart
+                });
+            }
+
 
         }
     }
