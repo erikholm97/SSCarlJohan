@@ -179,6 +179,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
         }
 
         public bool CanRemoveFromCart
@@ -208,9 +209,10 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             {
                 bool output = false;
 
-
-                //Make sure something is selected
-                // Make sure there is an item quantity.
+                if(Cart.Count > 0)
+                {
+                    output = true;
+                }
 
                 return output;
             }
