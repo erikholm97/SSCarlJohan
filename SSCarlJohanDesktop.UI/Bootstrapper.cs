@@ -28,6 +28,7 @@ namespace SSCarlJohanDesktop.UI
         protected override void Configure()
         {
             _container.Instance(_container)
+                .PerRequest<ISaleEndPoint, SaleEndPoint>()
                 .PerRequest<IProductEndPoint, ProductEndPoint>();
 
             _container

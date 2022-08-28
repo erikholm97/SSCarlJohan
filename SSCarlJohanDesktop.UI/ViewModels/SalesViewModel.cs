@@ -14,13 +14,16 @@ namespace SSCarlJohanDesktop.UI.ViewModels
     public class SalesViewModel : Screen
     {
         IProductEndPoint _productEndPoint;
+        ISaleEndPoint _saleEndPoint;
         IConfigHelper _configHelper;
 
         public SalesViewModel(IProductEndPoint productEndPoint,
-            IConfigHelper configHelper)
+            IConfigHelper configHelper,
+            ISaleEndPoint saleEndPoint)
         {
             _productEndPoint = productEndPoint;
             _configHelper = configHelper;
+            _saleEndPoint = saleEndPoint;
         }        
         protected override async void OnViewLoaded(object view)
         {
@@ -218,7 +221,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             }
         }
 
-        public void CheckOut()
+        public async Task CheckOut()
         {
             SaleModel sale = new SaleModel();
 
@@ -231,7 +234,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
                 });
             }
 
-
+            await _saleEndPoint.PostSale(sale);
         }
     }
 }
