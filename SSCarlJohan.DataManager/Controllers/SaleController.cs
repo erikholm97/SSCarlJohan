@@ -1,4 +1,7 @@
-﻿using SSCarlJohan.DataManager.Models;
+﻿using Microsoft.AspNet.Identity;
+using SSCarlJohan.DataManager.Library.DataAccess;
+using SSCarlJohan.DataManager.Library.Models;
+using SSCarlJohan.DataManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +16,16 @@ namespace SSCarlJohan.DataManager.Controllers
     {
         public void Post(SaleModel sale)
         {
-            Console.WriteLine();
-
             if (sale == null)
+            {
                 return;
+            }
+
+            SaleData data = new SaleData();
+
+            string userId = RequestContext.Principal.Identity.GetUserId();
+
+            data.SaveSale(sale, userId);
 
         }
 
