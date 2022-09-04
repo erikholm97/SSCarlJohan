@@ -16,7 +16,7 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
             // Start filling in the models we will save to the db.
             List<SaleDetailDBModel> details = new List<SaleDetailDBModel>();
             ProductData products = new ProductData();
-            var taxRate = ConfigHelper.GetTaxRate();
+            var taxRate = ConfigHelper.GetTaxRate() / 100;
 
             foreach (var saleDetail in saleInfo.SaleDetails)
             {
@@ -48,7 +48,7 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
             {
                 SubTotal = details.Sum(x => x.PurchasePrice),
                 Tax = details.Sum(x => x.Tax),
-                CashierId = cashierId
+                CashierId = cashierId              
             };
 
             sale.Total = sale.SubTotal + sale.Tax;
@@ -58,6 +58,9 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
             SqlDataAccess sql = new SqlDataAccess();
 
             sql.SaveData<SaleDBModel>("dbo.spSale_Insert", sale, "SSCarlJohanConnection");
+
+            // GET THE ID FROM SALE MODEL.
+           sale.Id = sql.LoadData<int, dynamic>("spSale_Lookup", new { sale.CashierId, sale.SaleDate}, "SSCarlJohanConnection").FirstOrDefault();
 
             foreach (var item in details)
             {
