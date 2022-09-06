@@ -1,8 +1,10 @@
-﻿using Caliburn.Micro;
+﻿using AutoMapper;
+using Caliburn.Micro;
 using SSCarlJohan.Desktop.UI.Library.API;
 using SSCarlJohan.Desktop.UI.Library.Helpers;
 using SSCarlJohan.Desktop.UI.Library.Models;
 using SSCarlJohanDesktop.UI.Helpers;
+using SSCarlJohanDesktop.UI.Models;
 using SSCarlJohanDesktop.UI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -22,11 +24,23 @@ namespace SSCarlJohanDesktop.UI
             ConventionManager.AddElementConvention<PasswordBox>(
                                                 PasswordBoxHelper.BoundPasswordProperty,
                                                 "Password",
-                                                "PasswordChanged");            
+                                                "PasswordChanged");
         }
 
         protected override void Configure()
         {
+            var config = new MapperConfiguration(
+                cfg =>
+                {
+                    cfg.CreateMap<ProductModel, ProductDisplayModel>();
+                    cfg.CreateMap<CartItemModel, CartItemDisplayModel>();
+
+                });
+
+            var mapper = config.CreateMapper();
+
+            _container.Instance(mapper);
+
             _container.Instance(_container)
                 .PerRequest<ISaleEndPoint, SaleEndPoint>()
                 .PerRequest<IProductEndPoint, ProductEndPoint>();
