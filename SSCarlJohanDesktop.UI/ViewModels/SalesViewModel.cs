@@ -1,7 +1,9 @@
-﻿using Caliburn.Micro;
+﻿using AutoMapper;
+using Caliburn.Micro;
 using SSCarlJohan.Desktop.UI.Library.API;
 using SSCarlJohan.Desktop.UI.Library.Helpers;
 using SSCarlJohan.Desktop.UI.Library.Models;
+using SSCarlJohanDesktop.UI.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,14 +18,17 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         IProductEndPoint _productEndPoint;
         ISaleEndPoint _saleEndPoint;
         IConfigHelper _configHelper;
+        IMapper _mapper;
 
         public SalesViewModel(IProductEndPoint productEndPoint,
             IConfigHelper configHelper,
-            ISaleEndPoint saleEndPoint)
+            ISaleEndPoint saleEndPoint,
+            IMapper mapper)
         {
             _productEndPoint = productEndPoint;
             _configHelper = configHelper;
             _saleEndPoint = saleEndPoint;
+            _mapper = mapper;
         }        
         protected override async void OnViewLoaded(object view)
         {
@@ -33,13 +38,14 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 
         private async Task LoadProducts()
         {
-            var products = await _productEndPoint.GetAll();
-            Products = new BindingList<ProductModel>(products);
+            var productList = await _productEndPoint.GetAll();
+            var products = _mapper.Map<List<ProductDisplayModel>>(productList);
+            Products = new BindingList<ProductDisplayModel>(products);
         }
 
-        private BindingList<ProductModel> _products;
+        private BindingList<ProductDisplayModel> _products;
 
-        public BindingList<ProductModel> Products
+        public BindingList<ProductDisplayModel> Products
         {
             get { return _products; }
             set
@@ -49,9 +55,9 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             }
         }
 
-        private ProductModel _selectedProduct;
+        private ProductDisplayModel _selectedProduct;
 
-        public ProductModel SelectedProduct
+        public ProductDisplayModel SelectedProduct
         {
             get { return _selectedProduct; }
             set
@@ -62,9 +68,9 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         }
 
 
-        private BindingList<CartItemModel> _cart = new BindingList<CartItemModel>();
+        private BindingList<CartItemDisplayModel> _cart = new BindingList<CartItemDisplayModel>();
 
-        public BindingList<CartItemModel> Cart
+        public BindingList<CartItemDisplayModel> Cart
         {
             get { return _cart; }
             set
@@ -158,7 +164,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         public void AddToCart()
         {
             //Compares the objects of product in cart and user selected product. 
-            CartItemModel existingItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
+            CartItemDisplayModel existingItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
 
             if (existingItem != null)
             {
@@ -169,7 +175,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             }
             else
             {
-                CartItemModel item = new CartItemModel()
+                CartItemDisplayModel item = new CartItemDisplayModel()
                 {
                     Product = SelectedProduct,
                     QuantityInCart = ItemQuantity

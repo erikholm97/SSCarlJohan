@@ -9,11 +9,6 @@ namespace SSCarlJohan.Desktop.UI.Library.Models
     public class CartItemModel
     {
         public ProductModel Product { get; set; }
-        public int QuantityInCart { get; set; }
-        
-        public string DisplayText
-        {
-            get => $"{Product.ProductName} ({QuantityInCart}) ({Product.RetailPrice:C} per pc)";            
-        }
+        public int QuantityInCart { get; set; }       
     }
 }
