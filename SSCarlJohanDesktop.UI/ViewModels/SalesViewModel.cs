@@ -80,6 +80,16 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             }
         }
 
+        public async Task ResetSalesViewModel()
+        {
+            Cart = new BindingList<CartItemDisplayModel>();
+            //Todo - Add clearing the selectedCartItem if it does not do it itself.
+            await LoadProducts();
+            NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
+        }
 
         private BindingList<CartItemDisplayModel> _cart = new BindingList<CartItemDisplayModel>();
 
@@ -179,6 +189,11 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             //Compares the objects of product in cart and user selected product. 
             CartItemDisplayModel existingItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
 
+            if(SelectedProduct is null)
+            {
+                return;
+            }
+
             if (existingItem != null)
             {
                 existingItem.QuantityInCart += ItemQuantity;
@@ -268,6 +283,8 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             }
 
             await _saleEndPoint.PostSale(sale);
+
+            await ResetSalesViewModel();
         }
     }
 }

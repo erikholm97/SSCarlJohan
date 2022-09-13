@@ -17,6 +17,16 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             ActivateItem(IoC.Get<LoginViewModel>());
         }
 
+        public void ExitApplication()
+        {
+            base.TryClose();
+        }
+
+        public void LogOut()
+        {
+
+        }
+
         public void Handle(LogOnEvent message)
             => ActivateItem(_salesVM);            
         
