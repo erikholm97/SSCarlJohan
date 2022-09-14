@@ -33,8 +33,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
                     output = true;
                 }
                 
-                return output;
-            
+                return output;            
             }
         }
 
