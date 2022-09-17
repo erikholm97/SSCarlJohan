@@ -8,6 +8,7 @@ namespace SSCarlJohan.Desktop.UI.Library.API
     {
         Task<AuthenticatedUser> AuthenticateAsync(string username, string password);
         Task<LoggedInUserModel> GetLoggedInUserInfo(string token);
-        HttpClient ApiClient { get; }        
+        HttpClient ApiClient { get; }
+        void LogOffUser();
     }
 }

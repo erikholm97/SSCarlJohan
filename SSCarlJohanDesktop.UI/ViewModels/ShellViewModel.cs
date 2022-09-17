@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using SSCarlJohan.Desktop.UI.Library.API;
 using SSCarlJohan.Desktop.UI.Library.Models;
 using SSCarlJohanDesktop.UI.EventModels;
 
@@ -9,20 +10,23 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         private IEventAggregator _events;
         private SalesViewModel _salesVM;
         private ILoggedInUserModel _user;
+        private IAPIHelper _apiHelper;
 
         public ShellViewModel(SalesViewModel salesVM,
-            IEventAggregator events,
-            ILoggedInUserModel user)
+                              IEventAggregator events,
+                              ILoggedInUserModel user,
+                              IAPIHelper apiHelper)
         {
             _events = events;
             _salesVM = salesVM;
             _user = user;
+            _apiHelper = apiHelper;
             _events.Subscribe(this);
 
             ActivateItem(IoC.Get<LoginViewModel>());
         }
 
-        public bool IsAccountVisible
+        public bool IsLoggedIn
         {
             get 
             { 
@@ -44,13 +48,16 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 
         public void LogOut()
         {
-            _user.LogOffUser();
+            _user.ResetUserModel();
+            _apiHelper.LogOffUser();
+            ActivateItem(IoC.Get<LoginViewModel>());
+            NotifyOfPropertyChange(() => _user);
         }
 
         public void Handle(LogOnEvent message)
         {
             ActivateItem(_salesVM);
-            NotifyOfPropertyChange(() => IsAccountVisible);
+            NotifyOfPropertyChange(() => IsLoggedIn);
         }            
     }
 }

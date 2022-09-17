@@ -62,6 +62,11 @@ namespace SSCarlJohan.Desktop.UI.Library.API
             }
         }
 
+        public void LogOffUser()
+        {
+            _apiClient.DefaultRequestHeaders.Clear();
+        }
+
         public async Task<LoggedInUserModel> GetLoggedInUserInfo(string token)
         {
             _apiClient.DefaultRequestHeaders.Clear();
