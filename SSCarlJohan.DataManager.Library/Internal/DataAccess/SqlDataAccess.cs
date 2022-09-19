@@ -40,6 +40,21 @@ namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
             }
         }
 
+        public List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters)
+        {
+            List<T> rows = _connection.Query<T>(storedProcedure, parameters, 
+                commandType: CommandType.StoredProcedure, transaction: _transaction).ToList();
+
+            return rows;
+        }
+
+        public void SaveDataInTransaction<T>(string storedProcedure, T parameters)
+        {
+            _connection.Execute(storedProcedure, parameters,
+                               commandType: CommandType.StoredProcedure, transaction: _transaction);
+
+        }
+
         private IDbConnection _connection;
         private IDbTransaction _transaction;
 
