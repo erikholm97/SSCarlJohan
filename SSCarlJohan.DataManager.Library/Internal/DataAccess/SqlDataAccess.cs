@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
 {
-    internal class SqlDataAccess
+    internal class SqlDataAccess : IDisposable
     {
         public string GetConnectionString(string name)
         {
@@ -39,5 +39,38 @@ namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
                                    commandType: CommandType.StoredProcedure);
             }
         }
+
+        private IDbConnection _connection;
+        private IDbTransaction _transaction;
+
+        public void BeginTransaction(string connectionStringName)
+        {
+            string connectionString = GetConnectionString(connectionStringName);
+
+            _connection = new SqlConnection(connectionString);
+
+            _transaction = _connection.BeginTransaction();
+        }
+
+        public void CommitTransaction()
+        {
+            _transaction?.Commit();
+            _connection?.Dispose();
+        }
+
+        public void RollBackTransaction()
+        {
+            _transaction?.Rollback();
+        }
+
+        public void Dispose()
+        {
+            CommitTransaction();
+        }
+
+        //Open connection/start transaction method
+        // Load using the transaction.
+        // Save using the transaction.
+        //CloseConnection/stop transaction. 
     }
 }
