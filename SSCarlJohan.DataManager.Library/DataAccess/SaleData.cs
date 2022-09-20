@@ -58,7 +58,7 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
             {
                 try
                 {
-                    sql.BeginTransaction("TRMData");
+                    sql.BeginTransaction("SSCarlJohanConnection");
 
                     // Save the sale model.
                     sql.SaveDataInTransaction("dbo.spSale_Insert", sale);
@@ -71,6 +71,8 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
                         item.SaleId = sale.Id;
                         sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
                     }
+
+                    sql.CommitTransaction();
                 }
                 catch
                 {
