@@ -42,7 +42,7 @@ namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
 
         public List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters)
         {
-            List<T> rows = _connection.Query<T>(storedProcedure, parameters, 
+            List<T> rows = _connection.Query<T>(storedProcedure, parameters,
                 commandType: CommandType.StoredProcedure, transaction: _transaction).ToList();
 
             return rows;
@@ -66,23 +66,46 @@ namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
 
             _connection.Open();
 
+
             _transaction = _connection.BeginTransaction();
+
+            isClosed = false;
         }
+
+        private bool isClosed = false;
 
         public void CommitTransaction()
         {
             _transaction?.Commit();
-            _connection?.Dispose();
+            _connection?.Close();
+
+            isClosed = true;
         }
 
         public void RollBackTransaction()
         {
             _transaction?.Rollback();
+            _connection.Close();
+
+            isClosed = true;
         }
 
         public void Dispose()
         {
-            CommitTransaction();
+            if (isClosed == false)
+            {
+                try
+                {
+                    CommitTransaction();
+                }
+                catch
+                {
+                   //Todo log
+                }
+            }
+
+            _transaction = null;
+            _connection = null;
         }
 
         //Open connection/start transaction method
