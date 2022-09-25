@@ -107,10 +107,5 @@ namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
             _transaction = null;
             _connection = null;
         }
-
-        //Open connection/start transaction method
-        // Load using the transaction.
-        // Save using the transaction.
-        //CloseConnection/stop transaction. 
     }
 }
