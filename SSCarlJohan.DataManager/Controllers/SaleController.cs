@@ -28,13 +28,12 @@ namespace SSCarlJohan.DataManager.Controllers
             data.SaveSale(sale, userId);
 
         }
+        [Route("GetSalesReport")]
+        public List<SaleReportModel> GetSalesReport()
+        {
+            SaleData data = new SaleData();
 
-        // GET: api/Product
-        //public List<Sale> Get()
-        //{
-        //    ProductData data = new ProductData();
-
-        //    return data.GetProducts();
-        //}
+            return data.GetSaleReport();
+        }
     }
 }
