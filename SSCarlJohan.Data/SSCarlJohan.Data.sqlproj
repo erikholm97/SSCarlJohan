@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\SSCarlJohan.Data.publish.xml" />
+    <None Include="SSCarlJohan.Data.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Stored Procedures\spUserLookup.sql" />
