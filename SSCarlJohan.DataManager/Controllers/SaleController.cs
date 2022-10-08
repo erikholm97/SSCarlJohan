@@ -14,6 +14,7 @@ namespace SSCarlJohan.DataManager.Controllers
     [Authorize]
     public class SaleController : ApiController
     {
+        [Authorize(Roles = "Cashier")]
         public void Post(SaleModel sale)
         {
             if (sale == null)
@@ -28,6 +29,8 @@ namespace SSCarlJohan.DataManager.Controllers
             data.SaveSale(sale, userId);
 
         }
+
+        [Authorize(Roles = "Admin,Manager")]
         [Route("GetSalesReport")]
         public List<SaleReportModel> GetSalesReport()
         {

@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace SSCarlJohan.DataManager.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Cashier,Manager,Admin")]
     public class ProductController : ApiController
     {
         // GET: api/Product
