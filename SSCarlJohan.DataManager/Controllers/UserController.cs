@@ -23,7 +23,7 @@ namespace SSCarlJohan.DataManager.Controllers
             return userData.GetUserById(userId).First();
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
         [Route("Admin/GetAllUsers")]
         public List<ApplicationUserModel> GetAllUsers()
