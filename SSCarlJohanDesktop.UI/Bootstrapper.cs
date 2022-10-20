@@ -48,7 +48,8 @@ namespace SSCarlJohanDesktop.UI
 
             _container.Instance(_container)
                 .PerRequest<ISaleEndPoint, SaleEndPoint>()
-                .PerRequest<IProductEndPoint, ProductEndPoint>();
+                .PerRequest<IProductEndPoint, ProductEndPoint>()
+                .PerRequest<IUserEndPoint, UserEndPoint>();
 
             _container
                 .Singleton<IWindowManager, WindowManager>()

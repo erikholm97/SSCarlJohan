@@ -52,6 +52,7 @@
     <Compile Include="API\IAPIHelper.cs" />
     <Compile Include="API\IProductEndPoint.cs" />
     <Compile Include="API\ISaleEndPoint.cs" />
+    <Compile Include="API\IUserEndPoint.cs" />
     <Compile Include="API\ProductEndPoint.cs" />
     <Compile Include="API\SaleEndPoint.cs" />
     <Compile Include="API\UserEndPoint.cs" />

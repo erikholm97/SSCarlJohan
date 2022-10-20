@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SSCarlJohan.Desktop.UI.Library.API
 {
-    public class UserEndPoint
+    public class UserEndPoint : IUserEndPoint
     {
         public IAPIHelper _apiHelper;
         public UserEndPoint(IAPIHelper apiHelper)
@@ -18,7 +18,7 @@ namespace SSCarlJohan.Desktop.UI.Library.API
 
         public async Task<List<UserModel>> GetAll()
         {
-            using(HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("/api/User/Admin/GetAllUsers"))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("/api/User/Admin/GetAllUsers"))
             {
                 if (response.IsSuccessStatusCode)
                 {
