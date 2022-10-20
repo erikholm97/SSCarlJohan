@@ -1,7 +1,9 @@
 ﻿using Caliburn.Micro;
 using SSCarlJohan.Desktop.UI.Library.API;
+using SSCarlJohan.Desktop.UI.Library.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
@@ -16,7 +18,19 @@ namespace SSCarlJohanDesktop.UI.ViewModels
         private readonly IWindowManager _window;
         private readonly IUserEndPoint _userEndPoint;
 
-
+        BindingList<UserModel> _users;
+        public BindingList<UserModel> Users
+        {
+            get
+            {
+                return _users;
+            }
+            set
+            {
+                _users = value;
+                NotifyOfPropertyChange(() => Users);
+            }
+        }
 
         public UserDisplayViewModel(StatusInfoViewModel status, 
                                     IWindowManager window, 
@@ -59,7 +73,8 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 
         private async Task LoadUsers()
         {
-            var productList = await _userEndPoint.GetAll();           
+            var users = await _userEndPoint.GetAll(); 
+            Users = new BindingList<UserModel>(users);
         }
     }
 }
