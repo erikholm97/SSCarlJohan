@@ -17,10 +17,10 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 {
     public class SalesViewModel : Screen
     {
-        IProductEndPoint _productEndPoint;
-        ISaleEndPoint _saleEndPoint;
-        IConfigHelper _configHelper;
-        IMapper _mapper;
+        private readonly IProductEndPoint _productEndPoint;
+        private readonly ISaleEndPoint _saleEndPoint;
+        private readonly IConfigHelper _configHelper;
+        private readonly IMapper _mapper;
         private readonly StatusInfoViewModel _status;
         private readonly IWindowManager _window;
 

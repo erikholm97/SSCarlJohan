@@ -46,6 +46,11 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             base.TryClose();
         }
 
+        public void UserManagment()
+        {
+            ActivateItem(IoC.Get<UserDisplayViewModel>());
+        }
+
         public void LogOut()
         {
             _user.ResetUserModel();
