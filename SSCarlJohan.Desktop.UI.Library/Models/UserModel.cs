@@ -16,7 +16,7 @@ namespace SSCarlJohan.Desktop.UI.Library.Models
         {
             get
             {
-                return string.Join(",", Roles.Select(x => x.Value));
+                return string.Join(", ", Roles.Select(x => x.Value));
             }
         }
 
