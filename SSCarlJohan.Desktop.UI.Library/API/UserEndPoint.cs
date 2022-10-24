@@ -18,7 +18,7 @@ namespace SSCarlJohan.Desktop.UI.Library.API
 
         public async Task<List<UserModel>> GetAll()
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("/api/User/Admin/GetAllUsers"))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("/api/Admin/GetAllUsers"))
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -27,7 +27,7 @@ namespace SSCarlJohan.Desktop.UI.Library.API
                 }
                 else
                 {
-                    throw new Exception(response.ReasonPhrase.ToString());
+                    throw new Exception(response.ReasonPhrase);
                 }
             }
         }

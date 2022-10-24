@@ -30,13 +30,13 @@
                    Grid.Column="0" Grid.ColumnSpan="3" Margin="0 0 0 10"/>
         <!--Column 0-->
         <TextBlock Text="Items" Grid.Row="1" Grid.Column="0"/>
-        <ListBox  x:Name="Products" Grid.Row="2" Grid.Column="0"
+        <ListBox  x:Name="Users" Grid.Row="2" Grid.Column="0"
                   MinHeight="200" MinWidth="200">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{Binding Email}"/>
-                        <TextBlock Text="Binding RoleList"/>
+                        <TextBlock Text="{Binding RoleList}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
