@@ -69,5 +69,33 @@ namespace SSCarlJohan.DataManager.Controllers
                 return roles;
             }
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [Route("api/Admin/AddRole")]
+        public void GetAddRole(UserRolePairModel pairing)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+
+                userManager.AddToRole(pairing.UserId, pairing.Role);
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [Route("api/Admin/RemoveRole")]
+        public void RemoveRole(UserRolePairModel pairing)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+
+                userManager.RemoveFromRole(pairing.UserId, pairing.Role);
+            }
+        }
     }
 }
