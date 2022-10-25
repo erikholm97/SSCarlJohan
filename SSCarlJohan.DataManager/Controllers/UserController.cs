@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace SSCarlJohan.DataManager.Controllers
 {
-    [Authorize]    
+    [Authorize]
     public class UserController : ApiController
     {
         [HttpGet]
@@ -23,7 +23,6 @@ namespace SSCarlJohan.DataManager.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [AllowAnonymous]
         [HttpGet]
         [Route("api/Admin/GetAllUsers")]
         public List<ApplicationUserModel> GetAllUsers()
@@ -56,6 +55,19 @@ namespace SSCarlJohan.DataManager.Controllers
             }
 
             return output;
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("api/Admin/GetAllRoles")]
+        public Dictionary<string, string> GetAllRoles()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var roles = context.Roles.ToDictionary(x => x.Id, x => x.Name);
+
+                return roles;
+            }
         }
     }
 }
