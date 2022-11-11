@@ -24,7 +24,7 @@ namespace SSCarlJohan.DataManager.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        [Route("api/Admin/GetAllUsers")]
+        [Route("api/User/Admin/GetAllUsers")]
         public List<ApplicationUserModel> GetAllUsers()
         {
             List<ApplicationUserModel> output = new List<ApplicationUserModel>();
@@ -59,7 +59,7 @@ namespace SSCarlJohan.DataManager.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        [Route("api/Admin/GetAllRoles")]
+        [Route("api/User/Admin/GetAllRoles")]
         public Dictionary<string, string> GetAllRoles()
         {
             using (var context = new ApplicationDbContext())
@@ -72,7 +72,7 @@ namespace SSCarlJohan.DataManager.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        [Route("api/Admin/AddRole")]
+        [Route("api/User/Admin/AddRole")]
         public void GetAddRole(UserRolePairModel pairing)
         {
             using (var context = new ApplicationDbContext())
@@ -86,7 +86,7 @@ namespace SSCarlJohan.DataManager.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        [Route("api/Admin/RemoveRole")]
+        [Route("api/User/Admin/RemoveRole")]
         public void RemoveRole(UserRolePairModel pairing)
         {
             using (var context = new ApplicationDbContext())
