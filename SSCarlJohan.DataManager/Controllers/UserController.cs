@@ -73,7 +73,7 @@ namespace SSCarlJohan.DataManager.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("api/User/Admin/AddRole")]
-        public void GetAddRole(UserRolePairModel pairing)
+        public void AddRole(UserRolePairModel pairing)
         {
             using (var context = new ApplicationDbContext())
             {
