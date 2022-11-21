@@ -32,15 +32,69 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             }
         }
 
-        public UserDisplayViewModel(StatusInfoViewModel status, 
-                                    IWindowManager window, 
+        private UserModel _selectedUser;
+
+        public UserModel SelectedUser
+        {
+            get { return _selectedUser; }
+            set
+            {
+                _selectedUser = value;
+                SelectedUserName = value.Email;
+                SelectedUserRoles.Clear();
+                SelectedUserRoles = new BindingList<string>(value.Roles.Select(x => x.Value).ToList());
+                NotifyOfPropertyChange(() => SelectedUser);
+            }
+        }
+
+        private string _selectedUserName;
+
+        public string SelectedUserName
+        {
+            get
+            {
+                return _selectedUserName;
+            }
+            set
+            {
+                _selectedUserName = value;
+                NotifyOfPropertyChange(() => SelectedUserName);
+            }
+        }
+
+        private BindingList<string> _selectedUserRoles = new BindingList<string>();
+
+        public BindingList<string> SelectedUserRoles
+        {
+            get { return _selectedUserRoles; }
+            set 
+            { 
+                _selectedUserRoles = value;
+                NotifyOfPropertyChange(() => SelectedUserRoles);
+            }
+        }
+
+        private BindingList<string> _availableRoles = new BindingList<string>();
+
+        public BindingList<string> AvailableRoles
+        {
+            get { return _availableRoles; }
+            set
+            {
+                _availableRoles = value;
+                NotifyOfPropertyChange(() => AvailableRoles);
+            }
+        }
+
+        public UserDisplayViewModel(StatusInfoViewModel status,
+                                    IWindowManager window,
                                     IUserEndPoint user)
         {
             this._status = status;
             this._window = window;
             this._userEndPoint = user;
         }
-        
+
 
         protected override async void OnViewLoaded(object view)
         {
@@ -73,8 +127,13 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 
         private async Task LoadUsers()
         {
-            var users = await _userEndPoint.GetAll(); 
+            var users = await _userEndPoint.GetAll();
             Users = new BindingList<UserModel>(users);
+        }
+
+        private async Task LoadRoles()
+        {
+            var roles = await _userEndPoint.GetAll
         }
     }
 }
