@@ -43,6 +43,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
                 SelectedUserName = value.Email;
                 SelectedUserRoles.Clear();
                 SelectedUserRoles = new BindingList<string>(value.Roles.Select(x => x.Value).ToList());
+                Task.Run(() => LoadRoles());
                 NotifyOfPropertyChange(() => SelectedUser);
             }
         }
@@ -85,6 +86,15 @@ namespace SSCarlJohanDesktop.UI.ViewModels
                 NotifyOfPropertyChange(() => AvailableRoles);
             }
         }
+
+        private string _selectedRoleToRemove;
+
+        public string SelectedRoleToRemove
+        {
+            get { return _selectedRoleToRemove; }
+            set { _selectedRoleToRemove = value; }
+        }
+
 
         public UserDisplayViewModel(StatusInfoViewModel status,
                                     IWindowManager window,
@@ -133,7 +143,25 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 
         private async Task LoadRoles()
         {
-            var roles = await _userEndPoint.GetAll
+            var roles = await _userEndPoint.GetAllRoles();
+
+            foreach (var role in roles)
+            {
+                if(SelectedUserRoles.IndexOf(role.Value) < 0)
+                {
+                    AvailableRoles.Add(role.Value);
+                }
+            }
+        }
+
+        public void RemoveSelectedRole()
+        {
+
+        }
+
+        public void AddSelectedRole()
+        {
+
         }
     }
 }
