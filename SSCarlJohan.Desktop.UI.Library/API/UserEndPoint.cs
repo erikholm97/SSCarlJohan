@@ -58,10 +58,6 @@ namespace SSCarlJohan.Desktop.UI.Library.API
                 {
                     throw new Exception(response.ReasonPhrase);
                 }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
             }
         }
 
@@ -72,10 +68,6 @@ namespace SSCarlJohan.Desktop.UI.Library.API
             using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/User/Admin/RemoveRole", data))
             {
                 if (response.IsSuccessStatusCode is false)
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
-                else
                 {
                     throw new Exception(response.ReasonPhrase);
                 }

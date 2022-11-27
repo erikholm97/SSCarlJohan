@@ -41,9 +41,9 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             {
                 _selectedUser = value;
                 SelectedUserName = value.Email;
-                SelectedUserRoles.Clear();
-                SelectedUserRoles = new BindingList<string>(value.Roles.Select(x => x.Value).ToList());
-                Task.Run(() => LoadRoles());
+                UserRoles.Clear();
+                UserRoles = new BindingList<string>(value.Roles.Select(x => x.Value).ToList());
+                LoadRoles();
                 NotifyOfPropertyChange(() => SelectedUser);
             }
         }
@@ -63,15 +63,27 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             }
         }
 
-        private BindingList<string> _selectedUserRoles = new BindingList<string>();
+        private BindingList<string> _userRoles = new BindingList<string>();
 
-        public BindingList<string> SelectedUserRoles
+        public BindingList<string> UserRoles
         {
-            get { return _selectedUserRoles; }
+            get { return _userRoles; }
             set 
             { 
-                _selectedUserRoles = value;
-                NotifyOfPropertyChange(() => SelectedUserRoles);
+                _userRoles = value;
+                NotifyOfPropertyChange(() => UserRoles);
+            }
+        }
+
+        private BindingList<string> _availableUserRoles = new BindingList<string>();
+
+        public BindingList<string> AvailableUserRoles
+        {
+            get { return _availableUserRoles; }
+            set
+            {
+                _availableUserRoles = value;
+                NotifyOfPropertyChange(() => AvailableUserRoles);
             }
         }
 
@@ -87,12 +99,32 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             }
         }
 
-        private string _selectedRoleToRemove;
+        private string _selectedUserRole;
 
-        public string SelectedRoleToRemove
+        public string SelectedUserRole
         {
-            get { return _selectedRoleToRemove; }
-            set { _selectedRoleToRemove = value; }
+            get 
+            { 
+                return _selectedUserRole; 
+            }
+            set 
+            { 
+                _selectedUserRole = value;
+                NotifyOfPropertyChange(() => SelectedUserRole);
+            }
+        }
+
+        private string _selectedAvailableRole;
+
+        public string SelectedAvailableRole
+        {
+            get { 
+                return _selectedAvailableRole; 
+            }
+            set {
+                _selectedAvailableRole = value;
+                NotifyOfPropertyChange(() => SelectedAvailableRole);
+            }
         }
 
 
@@ -147,21 +179,28 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 
             foreach (var role in roles)
             {
-                if(SelectedUserRoles.IndexOf(role.Value) < 0)
+                //Check if role does not exist inside selected user roles
+                if(UserRoles.IndexOf(role.Value) < 0)
                 {
                     AvailableRoles.Add(role.Value);
                 }
             }
         }
 
-        public void RemoveSelectedRole()
+        public async Task AddSelectedRole()
         {
+            await _userEndPoint.AddUserToRole(SelectedUser.Id, this.SelectedAvailableRole);
 
+            UserRoles.Add(SelectedAvailableRole);
+            AvailableRoles.Remove(SelectedAvailableRole);
         }
 
-        public void AddSelectedRole()
+        public async Task RemoveSelectedRole()
         {
+            await _userEndPoint.RemoveUserFromRole(SelectedUser.Id, this.SelectedUserRole);
 
+            UserRoles.Remove(SelectedUserRole);
+            AvailableRoles.Add(SelectedUserRole);
         }
     }
 }

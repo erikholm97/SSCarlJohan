@@ -80,7 +80,7 @@ namespace SSCarlJohan.DataManager.Controllers
                 var userStore = new UserStore<ApplicationUser>(context);
                 var userManager = new UserManager<ApplicationUser>(userStore);
 
-                userManager.AddToRole(pairing.UserId, pairing.Role);
+                userManager.AddToRole(pairing.UserId, pairing.RoleName);
             }
         }
 
@@ -94,7 +94,7 @@ namespace SSCarlJohan.DataManager.Controllers
                 var userStore = new UserStore<ApplicationUser>(context);
                 var userManager = new UserManager<ApplicationUser>(userStore);
 
-                userManager.RemoveFromRole(pairing.UserId, pairing.Role);
+                userManager.RemoveFromRole(pairing.UserId, pairing.RoleName);
             }
         }
     }
