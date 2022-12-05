@@ -4,8 +4,8 @@
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="Dapper" Version="2.0.123" />
+	  <PackageReference Include="Dapper" Version="1.60.6" />
 	  <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
-	  <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+	  <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
 	</ItemGroup>
 </Project>
