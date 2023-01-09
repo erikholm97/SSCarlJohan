@@ -13,4 +13,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.30" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SSCarlJohan.DataManager.Library\SSCarlJohan.DataManager.Library.csproj" />
+  </ItemGroup>
+
 </Project>
