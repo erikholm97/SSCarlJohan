@@ -16,7 +16,7 @@ namespace SSCarlJohan.WebAPI.Pages
         private readonly UserManager<IdentityUser> userManager;
 
         public PrivacyModel(ILogger<PrivacyModel> logger, 
-            RoleManager<IdentityRole> roleManager
+            RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager)
         {
             _logger = logger;
