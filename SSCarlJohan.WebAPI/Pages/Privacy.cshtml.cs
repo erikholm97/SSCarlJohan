@@ -26,26 +26,26 @@ namespace SSCarlJohan.WebAPI.Pages
 
         public async Task OnGet()
         {
-            string[] roles = new string[] { "Manager", "Cashier", "Admin" };
+            //string[] roles = new string[] { "Manager", "Cashier", "Admin" };
 
-            foreach (var role in roles)
-            {
-                var roleExist = await roleManager.RoleExistsAsync(role);
+            //foreach (var role in roles)
+            //{
+            //    var roleExist = await roleManager.RoleExistsAsync(role);
 
-                if(roleExist is false) 
-                {
-                    await roleManager.CreateAsync(new IdentityRole(role));
-                }
-            }
+            //    if(roleExist is false) 
+            //    {
+            //        await roleManager.CreateAsync(new IdentityRole(role));
+            //    }
+            //}
 
-            var user = await userManager.FindByEmailAsync("erikholm97@gmail.com");
+            //var user = await userManager.FindByEmailAsync("erikholm97@gmail.com");
 
-            if(user != null)
-            {
-                await userManager.AddToRoleAsync(user, "Admin");
-                await userManager.AddToRoleAsync(user, "Cashier");
-                await userManager.AddToRoleAsync(user, "Manager");
-            }
+            //if(user != null)
+            //{
+            //    await userManager.AddToRoleAsync(user, "Admin");
+            //    await userManager.AddToRoleAsync(user, "Cashier");
+            //    await userManager.AddToRoleAsync(user, "Manager");
+            //}
         }
     }
 }
