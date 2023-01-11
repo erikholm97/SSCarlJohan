@@ -7,14 +7,31 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
 {
     internal class SqlDataAccess : IDisposable
     {
-        public string GetConnectionString(string name)
+        private readonly IConfiguration _config;
+
+        public SqlDataAccess(IConfiguration configuration)
+        {
+            _config = configuration;
+        }
+
+        public SqlDataAccess()
+        {            
+        }
+
+        public virtual string GetConnectionString(string name)
         {
             return ConfigurationManager.ConnectionStrings[name].ConnectionString;
+        }
+
+        public string GetConnectionString(string name, bool fromAPI)
+        {
+            return _config.GetConnectionString(name);
         }
 
         public List<T> LoadData<T, U>(string storedProcedure, U parameters, string connectionStringName)
@@ -72,7 +89,7 @@ namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
             isClosed = false;
         }
 
-        private bool isClosed = false;
+        private bool isClosed = false;        
 
         public void CommitTransaction()
         {
