@@ -24,14 +24,14 @@ namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
         {            
         }
 
-        public virtual string GetConnectionString(string name)
+        public string GetConnectionString(string name)
         {
-            return ConfigurationManager.ConnectionStrings[name].ConnectionString;
-        }
+            if (_config != null)
+            {
+                _config.GetConnectionString(name);
+            }
 
-        public string GetConnectionString(string name, bool fromAPI)
-        {
-            return _config.GetConnectionString(name);
+            return ConfigurationManager.ConnectionStrings[name].ConnectionString;
         }
 
         public List<T> LoadData<T, U>(string storedProcedure, U parameters, string connectionStringName)
