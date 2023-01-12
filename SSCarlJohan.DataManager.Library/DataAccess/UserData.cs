@@ -1,4 +1,5 @@
-﻿using SSCarlJohan.DataManager.Library.Internal.DataAccess;
+﻿using Microsoft.Extensions.Configuration;
+using SSCarlJohan.DataManager.Library.Internal.DataAccess;
 using SSCarlJohan.DataManager.Library.Internal.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,16 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
 {
     public class UserData
     {
+        private readonly IConfiguration config;
+
+        public UserData(IConfiguration config)
+        {
+            this.config = config;
+        }
+
+        public UserData()
+        {
+        }
         public List<UserModel> GetUserById(string Id)
         {
             SqlDataAccess sql = new SqlDataAccess();

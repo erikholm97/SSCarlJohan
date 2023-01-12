@@ -1,4 +1,5 @@
-﻿using SSCarlJohan.DataManager.Library.Internal.DataAccess;
+﻿using Microsoft.Extensions.Configuration;
+using SSCarlJohan.DataManager.Library.Internal.DataAccess;
 using SSCarlJohan.DataManager.Library.Models;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,22 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
 {
     public class SaleData
     {
+        private readonly IConfiguration config;
+
+        public SaleData(IConfiguration config)
+        {
+            this.config = config;
+        }
+
+        public SaleData()
+        {
+        }
         public void SaveSale(SaleModel saleInfo, string cashierId)
         {
             //TODO: Make this SOLID/DRY/Better
             // Start filling in the models we will save to the db.
             List<SaleDetailDBModel> details = new List<SaleDetailDBModel>();
-            ProductData products = new ProductData();
+            ProductData products = new ProductData(config);
             var taxRate = ConfigHelper.GetTaxRate() / 100;
 
             foreach (var saleDetail in saleInfo.SaleDetails)
@@ -54,7 +65,7 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
             sale.Total = sale.SubTotal + sale.Tax;
 
             //Save the sale model            
-            using (SqlDataAccess sql = new SqlDataAccess())
+            using (SqlDataAccess sql = new SqlDataAccess(config))
             {
                 try
                 {
@@ -84,7 +95,7 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
 
         public List<SaleReportModel> GetSaleReport()
         {
-            SqlDataAccess sql = new SqlDataAccess();
+            SqlDataAccess sql = new SqlDataAccess(config);
 
             var output = sql.LoadData<SaleReportModel, dynamic>("dbo.spSale_SaleReport", new { }, "SSCarlJohanConnection");
 
