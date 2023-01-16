@@ -21,17 +21,12 @@ namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
         }
 
         public SqlDataAccess()
-        {            
+        {
         }
 
         public string GetConnectionString(string name)
         {
-            if (_config != null)
-            {
-                _config.GetConnectionString(name);
-            }
-
-            return ConfigurationManager.ConnectionStrings[name].ConnectionString;
+            return _config.GetConnectionString(name);
         }
 
         public List<T> LoadData<T, U>(string storedProcedure, U parameters, string connectionStringName)
@@ -89,7 +84,7 @@ namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
             isClosed = false;
         }
 
-        private bool isClosed = false;        
+        private bool isClosed = false;
 
         public void CommitTransaction()
         {
@@ -117,7 +112,7 @@ namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
                 }
                 catch
                 {
-                   //Todo log
+                    //Todo log
                 }
             }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using SSCarlJohan.DataManager.Library.DataAccess;
 using SSCarlJohan.DataManager.Library.Models;
 using System.Collections.Generic;
@@ -13,6 +14,13 @@ namespace SSCarlJohan.WebAPI.Controllers
     [Authorize]
     public class SaleController : ControllerBase
     {
+        private readonly IConfiguration config;
+
+        public SaleController(IConfiguration config)
+        {
+            this.config = config;
+        }
+
         [Authorize(Roles = "Cashier")]
         public void Post(SaleModel sale)
         {
@@ -21,7 +29,7 @@ namespace SSCarlJohan.WebAPI.Controllers
                 return;
             }
 
-            SaleData data = new SaleData();
+            SaleData data = new SaleData(config);
 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //RequestContext.Principal.Identity.GetUserId();
 
@@ -33,7 +41,7 @@ namespace SSCarlJohan.WebAPI.Controllers
         [Route("GetSalesReport")]
         public List<SaleReportModel> GetSalesReport()
         {
-            SaleData data = new SaleData();
+            SaleData data = new SaleData(config);
 
             return data.GetSaleReport();
         }

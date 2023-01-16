@@ -11,6 +11,7 @@ using SSCarlJohan.WebAPI.Models;
 using SSCarlJohan.WebAPI.Data;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace SSCarlJohan.WebAPI.Controllers
 {
@@ -19,8 +20,14 @@ namespace SSCarlJohan.WebAPI.Controllers
     [Authorize]
     public class UserController : ControllerBase
     {
+        public UserController(IConfiguration config)
+        {
+            this.config = config;
+        }
+
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IConfiguration config;
 
         public UserController(ApplicationDbContext applicationDbContext, UserManager<IdentityUser> userManager)
         {
@@ -33,7 +40,7 @@ namespace SSCarlJohan.WebAPI.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            UserData userData = new UserData();
+            UserData userData = new UserData(config);
 
             return userData.GetUserById(userId).First();
         }
