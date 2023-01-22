@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System;
+using System.Text;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
 
 namespace SSCarlJohan.WebAPI.Controllers
 {
@@ -58,8 +61,23 @@ namespace SSCarlJohan.WebAPI.Controllers
             {
                 new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString())
+                new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
+                new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString())
             };
+       
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role.Name));
+            }
+
+            //Creates an new Jwt Token.
+            var token = new System.IdentityModel.Tokens.Jwt.JwtSecurityToken(
+                //Header of the provided token.
+                new System.IdentityModel.Tokens.Jwt.JwtHeader(
+                    //Signing credentials. Specifying that it uses SymetricSecurityKey string with UTF 8 encoding. and Security Algorithm HmacSha256.
+                    new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecretSoDoNotTell")),
+                    SecurityAlgorithms.HmacSha256)),
+                new System.IdentityModel.Tokens.Jwt.JwtPayload(claims));                  
 
             return null;
         }
