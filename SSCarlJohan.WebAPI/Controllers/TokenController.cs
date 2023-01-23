@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
 using System.Security.Claims;
-using Microsoft.IdentityModel.JsonWebTokens;
 using System;
 using System.Text;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace SSCarlJohan.WebAPI.Controllers
 {
@@ -33,7 +32,7 @@ namespace SSCarlJohan.WebAPI.Controllers
         {
             if (await IsValidUsernameAndPassword(username, password))
             {
-
+                return new ObjectResult(await GenerateToken(username));
             }
             else
             {
@@ -64,22 +63,28 @@ namespace SSCarlJohan.WebAPI.Controllers
                 new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
                 new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString())
             };
-       
+
             foreach (var role in roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role.Name));
             }
 
             //Creates an new Jwt Token.
-            var token = new System.IdentityModel.Tokens.Jwt.JwtSecurityToken(
+            var token = new JwtSecurityToken(
                 //Header of the provided token.
-                new System.IdentityModel.Tokens.Jwt.JwtHeader(
+                new JwtHeader(
                     //Signing credentials. Specifying that it uses SymetricSecurityKey string with UTF 8 encoding. and Security Algorithm HmacSha256.
                     new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecretSoDoNotTell")),
                     SecurityAlgorithms.HmacSha256)),
-                new System.IdentityModel.Tokens.Jwt.JwtPayload(claims));                  
+                new JwtPayload(claims));
 
-            return null;
+            var output = new
+            {
+                Access_Token = new JwtSecurityTokenHandler().WriteToken(token),
+                UserName = username
+            };
+
+            return output;
         }
     }
 }
