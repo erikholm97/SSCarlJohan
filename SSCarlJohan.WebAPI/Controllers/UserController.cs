@@ -20,19 +20,15 @@ namespace SSCarlJohan.WebAPI.Controllers
     [Authorize]
     public class UserController : ControllerBase
     {
-        public UserController(IConfiguration config)
-        {
-            this.config = config;
-        }
-
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration config;
 
-        public UserController(ApplicationDbContext applicationDbContext, UserManager<IdentityUser> userManager)
+        public UserController(ApplicationDbContext applicationDbContext, UserManager<IdentityUser> userManager, IConfiguration config)
         {
             this._applicationDbContext = applicationDbContext;
             this._userManager = userManager;
+            this.config = config;
         }
 
         [HttpGet]

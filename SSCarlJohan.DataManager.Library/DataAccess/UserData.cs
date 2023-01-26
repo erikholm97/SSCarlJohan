@@ -18,12 +18,9 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
             this.config = config;
         }
 
-        public UserData()
-        {
-        }
         public List<UserModel> GetUserById(string Id)
         {
-            SqlDataAccess sql = new SqlDataAccess();
+            SqlDataAccess sql = new SqlDataAccess(config);
 
             var p = new { Id = Id };
 
