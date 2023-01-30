@@ -21,6 +21,7 @@ namespace SSCarlJohan.WebAPI.Controllers
         }
 
         [Authorize(Roles = "Manager,Admin")]
+        [HttpGet]
         public List<InventoryModel> Get()
         {
             InventoryData data = new InventoryData(config);
@@ -28,6 +29,7 @@ namespace SSCarlJohan.WebAPI.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [HttpPost]
         public void Post(InventoryModel item)
         {
             InventoryData data = new InventoryData(config);

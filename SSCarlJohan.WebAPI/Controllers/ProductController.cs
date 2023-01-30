@@ -21,6 +21,7 @@ namespace SSCarlJohan.WebAPI.Controllers
         }
 
         // GET: api/Product
+        [HttpGet]
         public List<ProductModel> Get()
         {
             ProductData data = new ProductData(config);

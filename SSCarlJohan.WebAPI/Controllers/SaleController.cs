@@ -22,6 +22,7 @@ namespace SSCarlJohan.WebAPI.Controllers
         }
 
         [Authorize(Roles = "Cashier")]
+        [HttpPost]
         public void Post(SaleModel sale)
         {
             if (sale == null)
@@ -39,6 +40,7 @@ namespace SSCarlJohan.WebAPI.Controllers
 
         [Authorize(Roles = "Admin,Manager")]
         [Route("GetSalesReport")]
+        [HttpGet]
         public List<SaleReportModel> GetSalesReport()
         {
             SaleData data = new SaleData(config);
