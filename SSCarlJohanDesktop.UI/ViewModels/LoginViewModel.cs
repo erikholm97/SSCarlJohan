@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using SSCarlJohan.Desktop.UI.Library.API;
@@ -102,7 +103,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
 
                 await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
 
-                _events.PublishOnUIThread(new LogOnEvent());
+                _events.PublishOnUIThreadAsync(new LogOnEvent(), new CancellationToken());
             }
             catch(Exception ex)
             {

@@ -2,6 +2,8 @@
 using SSCarlJohan.Desktop.UI.Library.API;
 using SSCarlJohan.Desktop.UI.Library.Models;
 using SSCarlJohanDesktop.UI.EventModels;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SSCarlJohanDesktop.UI.ViewModels
 {
@@ -21,48 +23,48 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             _salesVM = salesVM;
             _user = user;
             _apiHelper = apiHelper;
-            _events.Subscribe(this);
+            _events.SubscribeOnPublishedThread(this);
 
-            ActivateItem(IoC.Get<LoginViewModel>());
+            ActivateItemAsync(IoC.Get<LoginViewModel>());
         }
 
         public bool IsLoggedIn
         {
-            get 
-            { 
+            get
+            {
                 bool output = false;
 
-                if(string.IsNullOrWhiteSpace(_user.Token) == false)
+                if (string.IsNullOrWhiteSpace(_user.Token) == false)
                 {
                     output = true;
                 }
-                
-                return output;            
+
+                return output;
             }
         }
 
         public void ExitApplication()
         {
-            base.TryClose();
+            base.TryCloseAsync();
         }
 
-        public void UserManagment()
+        public async Task UserManagment()
         {
-            ActivateItem(IoC.Get<UserDisplayViewModel>());
+            await ActivateItemAsync(IoC.Get<UserDisplayViewModel>(), new CancellationToken());
         }
 
-        public void LogOut()
+        public async Task LogOut()
         {
             _user.ResetUserModel();
             _apiHelper.LogOffUser();
-            ActivateItem(IoC.Get<LoginViewModel>());
+            await ActivateItemAsync(IoC.Get<LoginViewModel>(), new CancellationToken());
             NotifyOfPropertyChange(() => _user);
         }
 
-        public void Handle(LogOnEvent message)
+        public async Task HandleAsync(LogOnEvent message, CancellationToken cancellationToken)
         {
-            ActivateItem(_salesVM);
+            await ActivateItemAsync(_salesVM, cancellationToken);
             NotifyOfPropertyChange(() => IsLoggedIn);
-        }            
+        }
     }
 }
