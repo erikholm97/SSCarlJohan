@@ -1,0 +1,7 @@
+
+Application Ideas:
+ * Actually interact with the inventory.
+ * Move the API to Azure.
+ * CI/CD process.
+
+Phase 2 Roadmap

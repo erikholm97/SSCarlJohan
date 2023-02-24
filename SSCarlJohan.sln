@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSCarlJohan.DataManager", "
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SSCarlJohan.Data", "SSCarlJohan.Data\SSCarlJohan.Data.sqlproj", "{EE7F03AB-EF92-4151-91B8-01084942330E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSCarlJohan.Desktop.UI", "SSCarlJohanDesktop.UI\SSCarlJohan.Desktop.UI.csproj", "{C832CBC8-5EF4-46DE-BBB7-4685BD6CCB25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSCarlJohan.Desktop.UI", "SSCarlJohanDesktop.UI\SSCarlJohan.Desktop.UI.csproj", "{C832CBC8-5EF4-46DE-BBB7-4685BD6CCB25}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSCarlJohan.DataManager.Library", "SSCarlJohan.DataManager.Library\SSCarlJohan.DataManager.Library.csproj", "{7BD72679-D08B-435A-9F7D-6AF57067F7DD}"
 EndProject
@@ -19,7 +19,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{3C3AB825-781
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{BBC55EBE-DA3B-4B4A-B52E-77065C2000EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSCarlJohan.WebAPI", "SSCarlJohan.WebAPI\SSCarlJohan.WebAPI.csproj", "{00DFCF12-E1FB-4D2B-B4BA-5F82C31B03EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSCarlJohan.WebAPI", "SSCarlJohan.WebAPI\SSCarlJohan.WebAPI.csproj", "{00DFCF12-E1FB-4D2B-B4BA-5F82C31B03EE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5F5FF220-BF83-420F-BA4C-1BD549184E9F}"
+	ProjectSection(SolutionItems) = preProject
+		Roadmap.txt = Roadmap.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
