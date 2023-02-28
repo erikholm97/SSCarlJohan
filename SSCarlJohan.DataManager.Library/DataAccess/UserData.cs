@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SSCarlJohan.DataManager.Library.DataAccess
 {
-    public class UserData
+    public class UserData : IUserData
     {
         private readonly IConfiguration config;
 
@@ -22,9 +22,7 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
         {
             SqlDataAccess sql = new SqlDataAccess(config);
 
-            var p = new { Id = Id };
-
-            var output = sql.LoadData<UserModel, dynamic>("dbo.spUserLookup", p, "SSCarlJohanConnection");
+            var output = sql.LoadData<UserModel, dynamic>("dbo.spUserLookup", new { Id }, "SSCarlJohanConnection");
 
             return output;
         }

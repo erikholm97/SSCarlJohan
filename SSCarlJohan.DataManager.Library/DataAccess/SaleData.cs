@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SSCarlJohan.DataManager.Library.DataAccess
 {
-    public class SaleData
+    public class SaleData : ISaleData
     {
         private readonly IConfiguration config;
 
@@ -43,7 +43,7 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
 
                 if (productInfo is null)
                 {
-                    throw new KeyNotFoundException($"The product Id of { saleDetail.ProductId } could not be found in the database.");
+                    throw new KeyNotFoundException($"The product Id of {saleDetail.ProductId} could not be found in the database.");
                 }
 
                 detail.PurchasePrice = (productInfo.RetailPrice * detail.Quantity);
@@ -90,7 +90,7 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
                 {
                     sql.RollBackTransaction();
                     throw;
-                }             
+                }
             }
         }
 

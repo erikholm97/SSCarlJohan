@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SSCarlJohan.DataManager.Library.DataAccess
 {
-    public class InventoryData
+    public class InventoryData : IInventoryData
     {
         private readonly IConfiguration config;
 

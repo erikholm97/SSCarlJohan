@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SSCarlJohan.DataManager.Library.DataAccess
 {
-    public class ProductData
+    public class ProductData : IProductData
     {
         private readonly IConfiguration config;
 

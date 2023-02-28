@@ -23,20 +23,20 @@ namespace SSCarlJohan.WebAPI.Controllers
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration config;
+        private readonly IUserData userData;
 
-        public UserController(ApplicationDbContext applicationDbContext, UserManager<IdentityUser> userManager, IConfiguration config)
+        public UserController(ApplicationDbContext applicationDbContext, UserManager<IdentityUser> userManager, IConfiguration config, IUserData userData)
         {
             this._applicationDbContext = applicationDbContext;
             this._userManager = userManager;
             this.config = config;
+            this.userData = userData;
         }
 
         [HttpGet]
         public UserModel GetById()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            UserData userData = new UserData(config);
 
             return userData.GetUserById(userId).First();
         }

@@ -14,26 +14,26 @@ namespace SSCarlJohan.WebAPI.Controllers
     public class InventoryController : ControllerBase
     {
         private readonly IConfiguration config;
+        private readonly IInventoryData inventoryData;
 
-        public InventoryController(IConfiguration config)
+        public InventoryController(IConfiguration config, IInventoryData inventoryData)
         {
             this.config = config;
+            this.inventoryData = inventoryData;
         }
 
         [Authorize(Roles = "Manager,Admin")]
         [HttpGet]
         public List<InventoryModel> Get()
         {
-            InventoryData data = new InventoryData(config);
-            return data.GetInventory();
+            return inventoryData.GetInventory();
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public void Post(InventoryModel item)
         {
-            InventoryData data = new InventoryData(config);
-            data.SaveInventoryRecord(item);
+            inventoryData.SaveInventoryRecord(item);
         }
     }
 }

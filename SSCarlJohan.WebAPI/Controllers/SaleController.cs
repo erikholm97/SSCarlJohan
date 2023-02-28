@@ -15,10 +15,12 @@ namespace SSCarlJohan.WebAPI.Controllers
     public class SaleController : ControllerBase
     {
         private readonly IConfiguration config;
+        private readonly ISaleData saleData;
 
-        public SaleController(IConfiguration config)
+        public SaleController(IConfiguration config, ISaleData saleData)
         {
             this.config = config;
+            this.saleData = saleData;
         }
 
         [Authorize(Roles = "Cashier")]
@@ -30,11 +32,9 @@ namespace SSCarlJohan.WebAPI.Controllers
                 return;
             }
 
-            SaleData data = new SaleData(config);
-
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //RequestContext.Principal.Identity.GetUserId();
 
-            data.SaveSale(sale, userId);
+            saleData.SaveSale(sale, userId);
 
         }
 
@@ -43,9 +43,7 @@ namespace SSCarlJohan.WebAPI.Controllers
         [HttpGet]
         public List<SaleReportModel> GetSalesReport()
         {
-            SaleData data = new SaleData(config);
-
-            return data.GetSaleReport();
+            return saleData.GetSaleReport();
         }
     }
 }
