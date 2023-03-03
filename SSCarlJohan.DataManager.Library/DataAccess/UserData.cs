@@ -11,17 +11,15 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
 {
     public class UserData : IUserData
     {
-        private readonly IConfiguration config;
+        private readonly ISqlDataAccess sql;
 
-        public UserData(IConfiguration config)
+        public UserData(ISqlDataAccess sql)
         {
-            this.config = config;
+            this.sql = sql;
         }
 
         public List<UserModel> GetUserById(string Id)
         {
-            SqlDataAccess sql = new SqlDataAccess(config);
-
             var output = sql.LoadData<UserModel, dynamic>("dbo.spUserLookup", new { Id }, "SSCarlJohanConnection");
 
             return output;

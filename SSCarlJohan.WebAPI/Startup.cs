@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using SSCarlJohan.DataManager.Library.DataAccess;
+using SSCarlJohan.DataManager.Library.Internal.DataAccess;
 
 namespace SSCarlJohan.WebAPI
 {
@@ -45,6 +46,7 @@ namespace SSCarlJohan.WebAPI
             services.AddTransient<IProductData, ProductData>();
             services.AddTransient<ISaleData, SaleData>();
             services.AddTransient<IUserData, UserData>();
+            services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 
             services.AddAuthentication(options =>
             {
