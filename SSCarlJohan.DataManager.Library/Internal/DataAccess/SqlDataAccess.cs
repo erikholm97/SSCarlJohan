@@ -8,16 +8,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
 {
     public class SqlDataAccess : IDisposable, ISqlDataAccess
     {
         private readonly IConfiguration _config;
+        private readonly ILogger<SqlDataAccess> logger;
 
-        public SqlDataAccess(IConfiguration configuration)
+        public SqlDataAccess(IConfiguration configuration, ILogger<SqlDataAccess> logger)
         {
             _config = configuration;
+            this.logger = logger;
         }
 
         public SqlDataAccess()
@@ -110,9 +113,9 @@ namespace SSCarlJohan.DataManager.Library.Internal.DataAccess
                 {
                     CommitTransaction();
                 }
-                catch
+                catch(Exception ex)
                 {
-                    //Todo log
+                    logger.LogError(ex, "Commit transaction failed in the dispose method.");
                 }
             }
 
