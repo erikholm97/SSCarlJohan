@@ -46,7 +46,7 @@ namespace SSCarlJohanDesktop.UI.ViewModels
             base.TryCloseAsync();
         }
 
-        public async Task UserManagment()
+        public async Task UserManagement()
         {
             await ActivateItemAsync(IoC.Get<UserDisplayViewModel>(), new CancellationToken());
         }
