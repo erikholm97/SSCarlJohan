@@ -11,23 +11,21 @@ using System.Threading.Tasks;
 namespace SSCarlJohan.DataManager.Library.DataAccess
 {
     public class SaleData : ISaleData
-    {
-        private readonly IConfiguration config;
+    {        
+        private readonly IProductData productData;
+        private readonly ISqlDataAccess sql;
 
-        public SaleData(IConfiguration config)
-        {
-            this.config = config;
+        public SaleData(IProductData productData, ISqlDataAccess sql)
+        {            
+            this.productData = productData;
+            this.sql = sql;
         }
 
-        public SaleData()
-        {
-        }
         public void SaveSale(SaleModel saleInfo, string cashierId)
         {
             //TODO: Make this SOLID/DRY/Better
             // Start filling in the models we will save to the db.
             List<SaleDetailDBModel> details = new List<SaleDetailDBModel>();
-            ProductData products = new ProductData(config);
             var taxRate = ConfigHelper.GetTaxRate() / 100;
 
             foreach (var saleDetail in saleInfo.SaleDetails)
@@ -39,7 +37,7 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
                 };
 
                 // Get the information about this product.
-                var productInfo = products.GetProductById(saleDetail.ProductId);
+                var productInfo = productData.GetProductById(saleDetail.ProductId);
 
                 if (productInfo is null)
                 {
@@ -66,38 +64,34 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
             sale.Total = sale.SubTotal + sale.Tax;
 
             //Save the sale model            
-            using (SqlDataAccess sql = new SqlDataAccess(config))
+
+            try
             {
-                try
+                sql.BeginTransaction("SSCarlJohanConnection");
+
+                // Save the sale model.
+                sql.SaveDataInTransaction("dbo.spSale_Insert", sale);
+
+                // GET THE ID FROM SALE MODEL.
+                sale.Id = sql.LoadDataInTransaction<int, dynamic>("spSale_Lookup", new { sale.CashierId, sale.SaleDate }).FirstOrDefault();
+
+                foreach (var item in details)
                 {
-                    sql.BeginTransaction("SSCarlJohanConnection");
-
-                    // Save the sale model.
-                    sql.SaveDataInTransaction("dbo.spSale_Insert", sale);
-
-                    // GET THE ID FROM SALE MODEL.
-                    sale.Id = sql.LoadDataInTransaction<int, dynamic>("spSale_Lookup", new { sale.CashierId, sale.SaleDate }).FirstOrDefault();
-
-                    foreach (var item in details)
-                    {
-                        item.SaleId = sale.Id;
-                        sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
-                    }
-
-                    sql.CommitTransaction();
+                    item.SaleId = sale.Id;
+                    sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
                 }
-                catch
-                {
-                    sql.RollBackTransaction();
-                    throw;
-                }
+
+                sql.CommitTransaction();
+            }
+            catch
+            {
+                sql.RollBackTransaction();
+                throw;
             }
         }
 
         public List<SaleReportModel> GetSaleReport()
         {
-            SqlDataAccess sql = new SqlDataAccess(config);
-
             var output = sql.LoadData<SaleReportModel, dynamic>("dbo.spSale_SaleReport", new { }, "SSCarlJohanConnection");
 
             return output;

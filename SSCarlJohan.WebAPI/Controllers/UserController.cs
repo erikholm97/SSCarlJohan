@@ -12,6 +12,7 @@ using SSCarlJohan.WebAPI.Data;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace SSCarlJohan.WebAPI.Controllers
 {
@@ -21,16 +22,20 @@ namespace SSCarlJohan.WebAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly ApplicationDbContext _applicationDbContext;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IConfiguration config;
+        private readonly UserManager<IdentityUser> _userManager;        
         private readonly IUserData userData;
+        private readonly ILogger<UserController> logger;
 
-        public UserController(ApplicationDbContext applicationDbContext, UserManager<IdentityUser> userManager, IConfiguration config, IUserData userData)
+        public UserController(ApplicationDbContext applicationDbContext, 
+               UserManager<IdentityUser> userManager, 
+               IConfiguration config, 
+               IUserData userData,
+               ILogger<UserController> logger)
         {
             this._applicationDbContext = applicationDbContext;
-            this._userManager = userManager;
-            this.config = config;
+            this._userManager = userManager;            
             this.userData = userData;
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -85,8 +90,12 @@ namespace SSCarlJohan.WebAPI.Controllers
         [HttpPost]
         [Route("Admin/AddRole")]
         public async Task AddRole(UserRolePairModel pairing)
-        {
+        {            
+            string loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _userManager.FindByIdAsync(pairing.UserId);
+
+            logger.LogInformation("Admin {Admin} added user {User} to role {Role}", loggedInUserId, user.Id, pairing.RoleName);
+            
             await _userManager.AddToRoleAsync(user, pairing.RoleName);
         }
 
@@ -95,7 +104,11 @@ namespace SSCarlJohan.WebAPI.Controllers
         [Route("Admin/RemoveRole")]
         public async Task RemoveRole(UserRolePairModel pairing)
         {
+            string loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _userManager.FindByIdAsync(pairing.UserId);
+
+            logger.LogInformation("Admin {Admin} removed user {User} from role {Role}", loggedInUserId, user.Id, pairing.RoleName);
+
             await _userManager.RemoveFromRoleAsync(user, pairing.RoleName);
         }
     }

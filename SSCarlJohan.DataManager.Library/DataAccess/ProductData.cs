@@ -8,11 +8,11 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
 {
     public class ProductData : IProductData
     {
-        private readonly IConfiguration config;
+        private readonly ISqlDataAccess sql;
 
-        public ProductData(IConfiguration config)
+        public ProductData(ISqlDataAccess sql)
         {
-            this.config = config;
+            this.sql = sql;
         }
 
         public ProductData()
@@ -20,8 +20,6 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
         }
         public List<ProductModel> GetProducts()
         {
-            SqlDataAccess sql = new SqlDataAccess(config);
-
             var output = sql.LoadData<ProductModel, dynamic>("dbo.spProduct_GetAll", new { }, "SSCarlJohanConnection");
 
             return output;
@@ -29,8 +27,6 @@ namespace SSCarlJohan.DataManager.Library.DataAccess
 
         public ProductModel GetProductById(int productId)
         {
-            SqlDataAccess sql = new SqlDataAccess(config);
-
             var output = sql.LoadData<ProductModel, dynamic>("dbo.spProduct_GetById", new { Id = productId }, "SSCarlJohanConnection").FirstOrDefault();
 
             return output;
